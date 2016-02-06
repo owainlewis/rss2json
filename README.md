@@ -1,6 +1,6 @@
 # rss2json
 
-A Clojure library designed to ... well, that part is up to you.
+A simple web service that turns Atom and RSS XML feeds into JSON
 
 ## Usage
 
