@@ -4,6 +4,8 @@
            [java.io InputStreamReader]
            [com.sun.syndication.feed.synd SyndFeed]))
 
+;; Code extracted+adapted from feedparser
+
 (defrecord feed [
   authors
   categories
@@ -42,10 +44,7 @@
 (defrecord link [href hreflang length rel title type])
 
 (defn- make-enclosure [e]
-  (map->enclosure
-    {:length (.getLength e)
-     :type (.getType e)
-     :url (.getUrl e)}))
+  (map->enclosure {:length (.getLength e) :type (.getType e) :url (.getUrl e)}))
 
 (defn- make-content [c]
   (map->content {:type (.getType c) :value (.getValue c)}))
@@ -58,14 +57,10 @@
               :title (.getTitle l)
               :type (.getType l)}))
 
-(defn- make-category [c]
-  (map->category {:name (.getName c)
-                  :taxonomy_uri (.getTaxonomyUri c)}))
+(defn- make-category [c] (map->category {:name (.getName c)}))
 
 (defn- make-person [sp]
-  (map->person {:email (.getEmail sp)
-                :name (.getName sp)
-                :uri (.getUri sp)}))
+  (map->person {:email (.getEmail sp) :name (.getName sp) :uri (.getUri sp)}))
 
 (defn- make-image [i]
   (map->image {:description (.getDescription i)

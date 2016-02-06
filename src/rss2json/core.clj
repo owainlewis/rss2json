@@ -15,24 +15,20 @@
 (defn is-xml? [content-type]
   (= "application/rss+xml" content-type))
 
-(defn remove-nils
+(defn clean-nested-map
   "Remove all the nil values from a nested map"
   [nm]
   (clojure.walk/postwalk
-   (fn [el]
-     (if (map? el)
-       (let [m (into {} (remove (comp nil? second) el))]
-         (when (seq m)
-           m))
-       el))
-      nm))
+    (fn [el]
+      (if (map? el)
+        (let [m (into (hash-map) (remove (comp nil? second) el))]
+          (when (seq m) m))
+        el)) nm))
 
 (defn url->feed [url]
   (let [feed (parser/parse-feed-from-url url)]
-    (json/generate-string (remove-nils feed) true)))
-                         
-;; Web service
-;; ---------------------------------------------------------------
+    (json/generate-string
+      (clean-nested-map feed) true)))
 
 (defn render-json [status body]
   {:status status
@@ -43,7 +39,7 @@
   (GET "/" {params :query-params}
        (if-let [feed (get params "feed")]
          (render-json 200 (url->feed feed))
-         (render-json 400 "Missing feed query param")))
+         (render-json 200 "Missing feed")))
   (route/not-found "Not Found"))
 
 (def app (-> app-routes handler/api))
