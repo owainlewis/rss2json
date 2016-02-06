@@ -8,7 +8,11 @@ A Clojure library designed to ... well, that part is up to you.
 lein ring server
 ```
 
-Visit http://localhost:3000/?feed=http://feeds.bbci.co.uk/news/uk/rss.xml
+Visit 
+
+```
+http://localhost:3000/?feed=http://feeds.bbci.co.uk/news/uk/rss.xml
+```
 
 ## License
 
