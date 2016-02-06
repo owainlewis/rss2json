@@ -27,14 +27,16 @@
   (let [feed (parser/parse-feed-from-url url)]
     (json/generate-string feed true)))
 
+;; Web service
+;; ---------------------------------------------------------------
+
 (defn render-json [body]
   {:status 200
    :body body
    :headers {"Content-Type" "application/json"}})
-        
+ 
 (defroutes app-routes
   (GET "/" [] (render-json (url->feed "http://careers.stackoverflow.com/uk/jobs/feed")))
   (route/not-found "Not Found"))
 
 (def app app-routes)
-
