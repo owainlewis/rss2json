@@ -14,14 +14,11 @@
 (defn is-xml? [content-type]
   (= "application/rss+xml" content-type))
 
-(defn parse-rss [xml-data]
-  (map :tag (xml-seq xml-data)))
-   
 (defn rss-xml-from-url [url]
   (let [{status :status headers :headers body :body} (http/get url)
         content-type (content-type-from-http-headers headers)]
     (when (and (= 200 status) (is-xml? content-type))
-      (->> (xml/parse-str body) (parse-rss)))))
+      (xml/parse-str body))))
 
 (defn url->feed [url]
   (let [feed (parser/parse-feed-from-url url)]
