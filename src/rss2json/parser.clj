@@ -51,8 +51,11 @@
   (map->content {:type (.getType c) :value (.getValue c)}))
 
 (defn- make-link [l]
-  (map->link {:href (.getHref l) :hreflang (.getHreflang l)
-              :length (.getLength l) :rel (.getRel l) :title (.getTitle l)
+  (map->link {:href (.getHref l)
+              :hreflang (.getHreflang l)
+              :length (.getLength l)
+              :rel (.getRel l)
+              :title (.getTitle l)
               :type (.getType l)}))
 
 (defn- make-category [c]
@@ -102,8 +105,8 @@
                :uri (.getUri f)}))
 
 (defn- parse-internal [xmlreader]
- (let [syndfeed (.build (new SyndFeedInput) xmlreader)]
-   (make-feed syndfeed)))
+   (let [syndfeed (.build (new SyndFeedInput) xmlreader)]
+     (make-feed syndfeed)))
 
 (defn parse-feed-from-url
   "Parse a feed from a given URL"
