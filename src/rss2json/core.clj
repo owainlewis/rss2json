@@ -3,6 +3,8 @@
             [rss2json.parser :as parser]
             [cheshire.core :as json]
             [compojure.core :refer :all]
+            [ring.adapter.jetty :as jetty]
+            [environ.core :refer [env]]
             [compojure.handler :as handler]
             [compojure.route :as route]
             [clj-http.client :as http]))
@@ -43,3 +45,8 @@
   (route/not-found "Not Found"))
 
 (def app (-> app-routes handler/api))
+
+(defn -main
+  [& [port]]
+  (let [port (Integer. (or port (env :port) 5000))]
+    (jetty/run-jetty app {:port port :join? false})))
